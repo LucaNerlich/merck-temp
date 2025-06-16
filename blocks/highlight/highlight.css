@@ -1,0 +1,9 @@
+.highlight {
+    background-color: #F2F2F2;
+    border: 1px solid #D9D9D9;
+    min-width: 100%;
+}
+
+.highlight p {
+    padding: 25px 10px;
+}
