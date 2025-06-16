@@ -2,8 +2,8 @@
 Your project's description...
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.aem.page/
-- Live: https://main--{repo}--{owner}.aem.live/
+- Preview: https://main--merck-temp--LucaNerlich.aem.page/
+- Live: https://main--merck-temp--LucaNerlich.aem.live/
 
 ## Documentation
 
