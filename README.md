@@ -5,6 +5,10 @@ Your project's description...
 - Preview: https://main--merck-temp--LucaNerlich.aem.page/
 - Live: https://main--merck-temp--LucaNerlich.aem.live/
 
+- Test Page A: https://main--merck-temp--LucaNerlich.aem.page/m5or0nnwfk2
+- Test Page B: https://main--merck-temp--LucaNerlich.aem.page/5b2hj3bjfil
+
+
 ## Documentation
 
 Before using the aem-boilerplate, we recommand you to go through the documentation on https://www.aem.live/docs/ and more specifically:
