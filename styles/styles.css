@@ -72,6 +72,10 @@ body {
     line-height: 1.6;
 }
 
+main {
+    margin-top: var(--nav-height);
+}
+
 body.appear {
     display: block;
 }
@@ -103,7 +107,7 @@ h6 {
     font-family: var(--heading-font-family);
     font-weight: 600;
     line-height: 1.25;
-    scroll-margin: 40px;
+    scroll-margin: calc(var(--nav-height) + 20px);
 }
 
 h2,
@@ -209,6 +213,11 @@ main img {
     max-width: 100%;
     width: auto;
     height: auto;
+}
+
+/* Ensure anchor links account for sticky header */
+[id] {
+    scroll-margin-top: calc(var(--nav-height) + 20px);
 }
 
 .icon {
