@@ -48,6 +48,12 @@
     border: none;
 }
 
+.cards.video .cards-card-body {
+    margin: 16px;
+    text-align: center;
+    color: #503291;
+}
+
 /* Desktop: 3 items per row */
 @media (min-width: 768px) {
     .cards.video > ul > li {
