@@ -56,12 +56,15 @@ function createVideoCards(block) {
         
         // Create video element if we have both poster and video URL
         if (posterImage && videoUrl && imageDiv) {
+            const optimizedPicture = createOptimizedPicture(posterImage.src, posterImage.alt, false, [{ width: '750' }]);
+            const optimizedImg = optimizedPicture.querySelector('img');
+            
             const videoContainer = document.createElement('div');
             videoContainer.className = 'cards-video-container';
             
             const video = document.createElement('video');
             video.setAttribute('controls', '');
-            video.setAttribute('poster', posterImage.src);
+            video.setAttribute('poster', optimizedImg.src);
             video.setAttribute('preload', 'metadata');
             
             const source = document.createElement('source');
