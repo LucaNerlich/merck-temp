@@ -15,3 +15,24 @@
     font-size: var(--body-font-size-xs);
     font-weight: lighter;
 }
+
+
+.hero.video {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #503291;
+    width: 100%;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+    }
+}
+
+.hero.video .text {
+    color: #e1c3cd;
+    height: fit-content;
+    text-align: center;
+    justify-content: center;
+    font-size: var(--heading-font-size-m);
+}

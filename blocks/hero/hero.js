@@ -1,9 +1,13 @@
 import {createVideoElement, isVideoUrl} from "../../scripts/video.js";
 
 function createVideoHero(block) {
-    let videoUrl = "";
+    // Prepare Text Section
+    const textDiv = block.querySelector('div');
+    textDiv?.classList.add('text');
 
+    // Prepare Video Section
     // Find the first anchor element with a video mimetype URL
+    let videoUrl = "";
     const videoLink = block.querySelector('a[href]');
     if (videoLink && isVideoUrl(videoLink.href)) {
         videoUrl = videoLink.href;

@@ -50,7 +50,7 @@ function createVideoElement(posterImage, videoUrl) {
     const optimizedImg = optimizedPicture.querySelector('img');
 
     const videoContainer = document.createElement('div');
-    videoContainer.className = 'cards-video-container';
+    videoContainer.className = 'video-container';
 
     const video = document.createElement('video');
     video.setAttribute('controls', '');
