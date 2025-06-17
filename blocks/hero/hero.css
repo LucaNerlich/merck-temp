@@ -16,7 +16,6 @@
     font-weight: lighter;
 }
 
-
 .hero.video {
     display: flex;
     flex-direction: column;
@@ -27,6 +26,17 @@
     @media (min-width: 768px) {
         flex-direction: row;
     }
+}
+
+.hero.video .video-container {
+    width: 100%;
+    height: 100%;
+}
+
+.hero.video video {
+    width: 100%;
+    height: fit-content;
+    object-fit: cover;
 }
 
 .hero.video .text {
