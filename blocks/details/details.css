@@ -29,7 +29,7 @@
 
 .details details > *:not(summary) {
     padding: 16px;
-    margin: 0;
+    margin: 0 16px;
 }
 
 .details details > *:not(summary):first-of-type {
