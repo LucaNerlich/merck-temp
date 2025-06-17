@@ -1,16 +1,12 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
-export default function decorate(block) {
-    const isVideo = block.classList.contains('video');
-    if (isVideo) return createVideoCards(block);
-
+function createCardStructure(block) {
     /* change to ul, li */
     const ul = document.createElement('ul');
     [...block.children].forEach((row) => {
         const li = document.createElement('li');
         while (row.firstElementChild) li.append(row.firstElementChild);
         [...li.children].forEach((div) => {
-            console.log('div', div);
             if (div.children.length === 1 && div.querySelector('picture')) {
                 div.className = 'cards-card-image';
             } else {
@@ -19,6 +15,15 @@ export default function decorate(block) {
         });
         ul.append(li);
     });
+    return ul;
+}
+
+export default function decorate(block) {
+    const isVideo = block.classList.contains('video');
+    if (isVideo) return createVideoCards(block);
+
+    const ul = createCardStructure(block);
+    
     ul.querySelectorAll('picture > img')
         .forEach((img) => img.closest('picture')
             .replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
@@ -27,57 +32,50 @@ export default function decorate(block) {
 }
 
 function createVideoCards(block) {
-    /* change to ul, li */
-    const ul = document.createElement('ul');
-    [...block.children].forEach((row) => {
-        const li = document.createElement('li');
-        while (row.firstElementChild) li.append(row.firstElementChild);
-
+    const ul = createCardStructure(block);
+    
+    ul.querySelectorAll('li').forEach((li) => {
         let posterImage = null;
         let videoUrl = null;
-
-        [...li.children].forEach((div) => {
-            if (div.children.length === 1 && div.querySelector('picture')) {
-                div.className = 'cards-card-image';
-                posterImage = div.querySelector('picture > img');
-            } else {
-                div.className = 'cards-card-body';
-                // Find the first anchor element with a video mimetype URL
-                const videoLink = div.querySelector('a[href]');
-                if (videoLink && isVideoUrl(videoLink.href)) {
-                    videoUrl = videoLink.href;
-                    videoLink.remove();
-                }
+        
+        const imageDiv = li.querySelector('.cards-card-image');
+        const bodyDiv = li.querySelector('.cards-card-body');
+        
+        if (imageDiv) {
+            posterImage = imageDiv.querySelector('picture > img');
+        }
+        
+        if (bodyDiv) {
+            // Find the first anchor element with a video mimetype URL
+            const videoLink = bodyDiv.querySelector('a[href]');
+            if (videoLink && isVideoUrl(videoLink.href)) {
+                videoUrl = videoLink.href;
+                videoLink.remove();
             }
-        });
-
+        }
+        
         // Create video element if we have both poster and video URL
-        if (posterImage && videoUrl) {
+        if (posterImage && videoUrl && imageDiv) {
             const videoContainer = document.createElement('div');
             videoContainer.className = 'cards-video-container';
-
+            
             const video = document.createElement('video');
             video.setAttribute('controls', '');
             video.setAttribute('poster', posterImage.src);
             video.setAttribute('preload', 'metadata');
-
+            
             const source = document.createElement('source');
             source.src = videoUrl;
             source.type = getVideoMimeType(videoUrl);
-
+            
             video.appendChild(source);
             videoContainer.appendChild(video);
-
+            
             // Replace the image div with video container
-            const imageDiv = li.querySelector('.cards-card-image');
-            if (imageDiv) {
-                imageDiv.replaceWith(videoContainer);
-            }
+            imageDiv.replaceWith(videoContainer);
         }
-
-        ul.append(li);
     });
-
+    
     block.textContent = '';
     block.append(ul);
 }
