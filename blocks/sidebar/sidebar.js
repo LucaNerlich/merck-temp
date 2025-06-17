@@ -6,8 +6,6 @@ export default async function decorate(block) {
     const navMeta = getMetadata('sidebar');
     const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/sidebar';
     const fragment = await loadFragment(navPath);
-    console.log('block', block);
-    console.log('fragment', fragment);
 
     const main = document.querySelector('main');
 
