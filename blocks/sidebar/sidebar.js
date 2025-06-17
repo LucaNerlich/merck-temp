@@ -24,7 +24,6 @@ export default async function decorate(block) {
 
     if (contentToMove) {
         aside.appendChild(contentToMove);
-        console.log('Moved content to aside:', contentToMove);
     } else {
         console.error('No content found in block to move to sidebar');
         return;
