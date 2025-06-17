@@ -1,8 +1,7 @@
-import {createOptimizedPicture} from '../../scripts/aem.js';
-import {createVideoElement, getVideoMimeType, isVideoUrl} from "../../scripts/video.js";
+import {createVideoElement, isVideoUrl} from "../../scripts/video.js";
 
 function createVideoHero(block) {
-    let videoUrl = null;
+    let videoUrl = "";
 
     // Find the first anchor element with a video mimetype URL
     const videoLink = block.querySelector('a[href]');
