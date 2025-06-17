@@ -1,0 +1,52 @@
+/* Page container with flexbox layout */
+.page-container {
+    display: flex;
+    min-height: 100vh;
+    gap: 0;
+}
+
+/* Main content area */
+.page-container main {
+    flex: 1;
+    min-width: 0; /* Allows flex item to shrink below content size */
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 300px;
+    background-color: #f8f9fa;
+    border-left: 1px solid #e9ecef;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Prevents sidebar from shrinking */
+}
+
+/* Sidebar content styling */
+.sidebar .default-content-wrapper {
+    margin: 0;
+}
+
+.sidebar h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #007bff;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .page-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #e9ecef;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        order: 2; /* Places sidebar after main content on mobile */
+    }
+}

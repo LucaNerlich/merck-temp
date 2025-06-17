@@ -605,6 +605,13 @@ async function loadHeader(header) {
   return loadBlock(headerBlock);
 }
 
+async function loadSidebar(main) {
+    const headerBlock = buildBlock('sidebar', '');
+    main.append(headerBlock);
+    decorateBlock(headerBlock);
+    return loadBlock(headerBlock);
+}
+
 /**
  * Loads a block named 'footer' into footer
  * @param footer footer element
@@ -686,6 +693,7 @@ export {
   loadCSS,
   loadFooter,
   loadHeader,
+  loadSidebar,
   loadScript,
   loadSection,
   loadSections,
