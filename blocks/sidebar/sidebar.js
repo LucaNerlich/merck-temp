@@ -36,4 +36,6 @@ export default async function decorate(block) {
 
     // Remove the original block since we've moved its content
     fragment.remove();
+    main.classList.remove('sidebar-wrapper');
+    main.querySelector('div.sidebar.block').remove();
 }
