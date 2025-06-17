@@ -35,3 +35,22 @@
     aspect-ratio: 4 / 3;
     object-fit: cover;
 }
+
+/* Video cards specific styling */
+.cards.video > ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.cards.video > ul > li {
+    flex: 1 1 100%;
+    border: none;
+}
+
+/* Desktop: 3 items per row */
+@media (min-width: 768px) {
+    .cards.video > ul > li {
+        flex: 1 1 calc(33.333% - 3.333px);
+    }
+}
