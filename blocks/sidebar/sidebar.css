@@ -35,6 +35,9 @@
     border-bottom: 2px solid #007bff;
 }
 
+.sidebar code {
+    color: red;
+}
 
 /* Responsive design */
 @media (max-width: 768px) {
