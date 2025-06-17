@@ -1,32 +1,24 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import {createOptimizedPicture} from '../../scripts/aem.js';
+import {createVideoElement, getVideoMimeType, isVideoUrl} from "../../scripts/video.js";
 
 function createVideoHero(block) {
+    let videoUrl = null;
 
-    // wip, merge with code in cards
+    // Find the first anchor element with a video mimetype URL
+    const videoLink = block.querySelector('a[href]');
+    if (videoLink && isVideoUrl(videoLink.href)) {
+        videoUrl = videoLink.href;
+        videoLink.remove();
+    }
 
-   const posterImage = block.querySelector('picture > img');
-    const optimizedPicture = createOptimizedPicture(posterImage.src, posterImage.alt, false, [{ width: '750' }]);
-    const optimizedImg = optimizedPicture.querySelector('img');
+    // Find first image in markup
+    const posterImage = block.querySelector('picture > img');
 
-    const videoContainer = document.createElement('div');
-    videoContainer.className = 'cards-video-container';
+    // Create Video Container and append
+    block.append(createVideoElement(posterImage, videoUrl));
 
-    const video = document.createElement('video');
-    video.setAttribute('controls', '');
-    video.setAttribute('poster', optimizedImg.src);
-    video.setAttribute('preload', 'metadata');
-
-    const source = document.createElement('source');
-    // source.src = videoUrl;
-    // source.type = getVideoMimeType(videoUrl);
-
-    video.appendChild(source);
-    videoContainer.appendChild(video);
-
-    // Replace the image div with video container
-    block.append(videoContainer);
-    console.log('posterImage', posterImage);
-    return Promise.resolve(undefined);
+    // Remove original image from markup
+    posterImage.remove();
 }
 
 export default async function decorate(block) {
