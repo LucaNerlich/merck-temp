@@ -31,17 +31,6 @@
     position: relative;
     cursor: pointer;
 }
-/* .video-container::after {
-    content: '';
-    height: 40px;
-    width: 40px;
-    display: block;
-    background-color: #000;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transition: translate(-50%, -50%);
-} */
 
 .cards .video-container video {
     width: 100%;
