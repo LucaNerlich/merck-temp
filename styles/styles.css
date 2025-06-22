@@ -242,8 +242,10 @@ main > .section > div {
 }
 
 main > .section:first-of-type {
-    background-color: var(--color-green);
     margin-top: 0;
+}
+main > .section:first-of-type:has(.video.block) {
+    background-color: var(--color-green);
 }
 
 @media (width >= 900px) {
