@@ -1,11 +1,10 @@
-// Import if needed (ensure aem.js is available if used)
 import {createOptimizedPicture} from "./aem.js";
 
 /**
  * Determines if the provided URL points to a video file based on its extension.
  *
- * @param {string} url - The URL to be checked for being a video link.
- * @return {boolean} Returns `true` if the URL ends with a video extension, otherwise `false`.
+ * @param {string} url - The URL to be checked for being a video link. It is assumed that the URL is a string and contains the path or filename which may end with a known video file extension.
+ * @return {boolean} Returns `true` if the URL ends with an extension typically associated with video files, otherwise returns `false`.
  */
 function isVideoUrl(url) {
     const videoExtensions = ['.mp4', '.webm', '.ogg', '.avi', '.mov', '.wmv', '.flv', '.mkv'];
@@ -17,7 +16,11 @@ function isVideoUrl(url) {
  * Determines the MIME type of a video based on its file extension.
  *
  * @param {string} url - The URL or path of the video file.
- * @return {string} - The MIME type associated with the given video file extension, defaults to 'video/mp4'.
+ * The function checks the extension of this string to determine the appropriate MIME type.
+ *
+ * @return {string} - The MIME type associated with the given video file extension,
+ * such as 'video/mp4', 'video/webm', etc. If no known extensions are found in the URL,
+ * it defaults to 'video/mp4'.
  */
 function getVideoMimeType(url) {
     const lowerUrl = url.toLowerCase();
@@ -35,12 +38,12 @@ function getVideoMimeType(url) {
 /**
  * Creates a container for a video element with specified poster image and video URL.
  *
- * @param {Object} posterImage - An object with `src` and `alt` properties for the poster image.
+ * @param {Object} posterImage - An object representing the poster image with `src` and `alt` properties.
  * @param {string} posterImage.src - The source URL of the poster image.
  * @param {string} posterImage.alt - Alternative text for the poster image.
  * @param {string} videoUrl - The source URL of the video to be played.
  *
- * @returns {HTMLElement} A `div` element containing a configured `video` element.
+ * @returns {HTMLElement} A `div` element containing a configured `video` element with controls, poster image, and specified source URL.
  */
 function createVideoElement(posterImage, videoUrl) {
     const optimizedPicture = createOptimizedPicture(posterImage.src, posterImage.alt, false, [{width: '750'}]);
@@ -68,4 +71,4 @@ export {
     isVideoUrl,
     getVideoMimeType,
     createVideoElement,
-};
+}
