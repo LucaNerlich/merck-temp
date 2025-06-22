@@ -1,4 +1,5 @@
 import {createVideoElement, isVideoUrl} from "../../scripts/video.js";
+import {enhanceVideos} from "../../scripts/videoEnhance.js";
 
 function createVideoHero(block) {
     // Prepare Text Section
@@ -26,7 +27,10 @@ function createVideoHero(block) {
 
 export default async function decorate(block) {
     const isVideo = block.classList.contains('video');
-    if (isVideo) return createVideoHero(block);
+    if (isVideo) {
+        createVideoHero(block);
+        enhanceVideos(); // Call enhanceVideos after creating the video
+    }
 
     const h1 = block.querySelector('h1');
     if (!h1) return;
