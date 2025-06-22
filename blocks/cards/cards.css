@@ -28,19 +28,46 @@
 
 .cards .video-container {
     line-height: 0;
+    position: relative;
 }
+/* .video-container::after {
+    content: '';
+    height: 40px;
+    width: 40px;
+    display: block;
+    background-color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: translate(-50%, -50%);
+} */
 
 .cards .video-container video {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
 }
-
+   .custom-play-pause {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 10;
+    background: url('../../icons/play-button.png') no-repeat;
+    background-size: cover;
+    width: 72px;
+    height: 72px;
+   }
+.custom-play-pause:hover {
+    background-color: unset;
+}
 /* Video cards specific styling */
 .cards.video > ul {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
+    background-color: var(--background-color);
 }
 
 .cards.video > ul > li {
@@ -54,10 +81,20 @@
     color: #503291;
     font-size: 1.2rem;
 }
+.cards-wrapper,
+.hero-wrapper {
+    padding: 0 !important;
+}
 
 /* Desktop: 3 items per row */
 @media (min-width: 768px) {
-    .cards.video > ul > li {
+
+    .cards-wrapper,
+    .hero-wrapper {
+        padding: 0 32px !important;
+    }
+
+    .cards.video>ul>li {
         flex: 1 1 calc(33.333% - 3.333px);
     }
 }

@@ -1,10 +1,11 @@
+// Import if needed (ensure aem.js is available if used)
 import {createOptimizedPicture} from "./aem.js";
 
 /**
  * Determines if the provided URL points to a video file based on its extension.
  *
- * @param {string} url - The URL to be checked for being a video link. It is assumed that the URL is a string and contains the path or filename which may end with a known video file extension.
- * @return {boolean} Returns `true` if the URL ends with an extension typically associated with video files, otherwise returns `false`.
+ * @param {string} url - The URL to be checked for being a video link.
+ * @return {boolean} Returns `true` if the URL ends with a video extension, otherwise `false`.
  */
 function isVideoUrl(url) {
     const videoExtensions = ['.mp4', '.webm', '.ogg', '.avi', '.mov', '.wmv', '.flv', '.mkv'];
@@ -16,11 +17,7 @@ function isVideoUrl(url) {
  * Determines the MIME type of a video based on its file extension.
  *
  * @param {string} url - The URL or path of the video file.
- * The function checks the extension of this string to determine the appropriate MIME type.
- *
- * @return {string} - The MIME type associated with the given video file extension,
- * such as 'video/mp4', 'video/webm', etc. If no known extensions are found in the URL,
- * it defaults to 'video/mp4'.
+ * @return {string} - The MIME type associated with the given video file extension, defaults to 'video/mp4'.
  */
 function getVideoMimeType(url) {
     const lowerUrl = url.toLowerCase();
@@ -38,12 +35,12 @@ function getVideoMimeType(url) {
 /**
  * Creates a container for a video element with specified poster image and video URL.
  *
- * @param {Object} posterImage - An object representing the poster image with `src` and `alt` properties.
+ * @param {Object} posterImage - An object with `src` and `alt` properties for the poster image.
  * @param {string} posterImage.src - The source URL of the poster image.
  * @param {string} posterImage.alt - Alternative text for the poster image.
  * @param {string} videoUrl - The source URL of the video to be played.
  *
- * @returns {HTMLElement} A `div` element containing a configured `video` element with controls, poster image, and specified source URL.
+ * @returns {HTMLElement} A `div` element containing a configured `video` element.
  */
 function createVideoElement(posterImage, videoUrl) {
     const optimizedPicture = createOptimizedPicture(posterImage.src, posterImage.alt, false, [{width: '750'}]);
@@ -67,8 +64,86 @@ function createVideoElement(posterImage, videoUrl) {
     return videoContainer;
 }
 
+/**
+ * Enhances all existing video elements with custom play/pause functionality using a button.
+ */
+function enhanceVideos() {
+
+    // Target parent containers that might hold video containers
+    const parentContainers = document.querySelectorAll('.hero.video.block, .cards.video.block');
+
+    parentContainers.forEach((parent, parentIndex) => {
+        const videoContainers = parent.querySelectorAll('.video-container');
+
+        videoContainers.forEach((container, containerIndex) => {
+            const video = container.querySelector('video');
+            if (video) {
+                // Remove native controls
+                video.removeAttribute('controls');
+
+                // Add custom play/pause button specific to this video container
+                const playPauseBtn = document.createElement('button');
+                playPauseBtn.className = 'custom-play-pause';
+                container.appendChild(playPauseBtn);
+
+                // Style video and container
+                video.style.cssText = 'width: 100%; height: auto; object-fit: cover; cursor: pointer;';
+                container.style.position = 'relative';
+
+                // Add event listeners
+                let isPlaying = false;
+                playPauseBtn.addEventListener('click', () => {
+                    if (isPlaying) {
+                        video.pause();
+                        playPauseBtn.textContent = `Play ${parentIndex + 1}-${containerIndex + 1}`;
+                    } else {
+                        video.play();
+                        playPauseBtn.textContent = `Pause ${parentIndex + 1}-${containerIndex + 1}`;
+                    }
+                    isPlaying = !isPlaying;
+                });
+
+                video.addEventListener('play', () => {
+                    playPauseBtn.style.display = 'none';
+                    isPlaying = true;
+                });
+
+                video.addEventListener('pause', () => {
+                    playPauseBtn.style.display = 'block';
+                    isPlaying = false;
+                });
+            } else {
+                console.log(`No video found in video container ${containerIndex + 1} of parent ${parentIndex + 1}`);
+            }
+        });
+    });
+}
+
+// Ensure the script runs when the DOM is ready or retry if content is hidden
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM fully loaded, running enhanceVideos');
+        enhanceVideos();
+    });
+} else {
+    console.log('DOM already loaded, running enhanceVideos immediately');
+    enhanceVideos();
+    // Retry if content is hidden
+    if (document.querySelector('.section.hero-container.cards-container[style*="display: none"]')) {
+        console.log('Content hidden, setting up mutation observer');
+        const observer = new MutationObserver((mutations) => {
+            if (!document.querySelector('.section.hero-container.cards-container[style*="display: none"]')) {
+                console.log('Content now visible, re-running enhanceVideos');
+                enhanceVideos();
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.body, { attributes: true, subtree: true });
+    }
+}
+
 export {
     isVideoUrl,
     getVideoMimeType,
     createVideoElement,
-}
+};
