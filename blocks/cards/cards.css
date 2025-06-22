@@ -26,9 +26,10 @@
     object-fit: cover;
 }
 
-.cards .video-container {
+.video-container {
     line-height: 0;
     position: relative;
+    cursor: pointer;
 }
 /* .video-container::after {
     content: '';
@@ -56,8 +57,11 @@
     z-index: 10;
     background: url('../../icons/play-button.png') no-repeat;
     background-size: cover;
-    width: 72px;
-    height: 72px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--background-color);
+    border: 0 none;
+    padding: 0;
    }
 .custom-play-pause:hover {
     background-color: unset;

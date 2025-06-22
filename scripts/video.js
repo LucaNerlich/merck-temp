@@ -65,17 +65,16 @@ function createVideoElement(posterImage, videoUrl) {
 }
 
 /**
- * Enhances all existing video elements with custom play/pause functionality using a button.
+ * Enhances all existing video elements with custom play/pause functionality, including a clickable container and button.
  */
 function enhanceVideos() {
-
     // Target parent containers that might hold video containers
     const parentContainers = document.querySelectorAll('.hero.video.block, .cards.video.block');
 
-    parentContainers.forEach((parent, parentIndex) => {
+    parentContainers.forEach((parent) => {
         const videoContainers = parent.querySelectorAll('.video-container');
 
-        videoContainers.forEach((container, containerIndex) => {
+        videoContainers.forEach((container) => {
             const video = container.querySelector('video');
             if (video) {
                 // Remove native controls
@@ -86,21 +85,27 @@ function enhanceVideos() {
                 playPauseBtn.className = 'custom-play-pause';
                 container.appendChild(playPauseBtn);
 
-                // Style video and container
-                video.style.cssText = 'width: 100%; height: auto; object-fit: cover; cursor: pointer;';
-                container.style.position = 'relative';
-
-                // Add event listeners
+                // Add event listeners for both container and button
                 let isPlaying = false;
-                playPauseBtn.addEventListener('click', () => {
+                const togglePlayPause = () => {
                     if (isPlaying) {
                         video.pause();
-                        playPauseBtn.textContent = `Play ${parentIndex + 1}-${containerIndex + 1}`;
+                        playPauseBtn.textContent = 'Play';
                     } else {
                         video.play();
-                        playPauseBtn.textContent = `Pause ${parentIndex + 1}-${containerIndex + 1}`;
+                        playPauseBtn.textContent = 'Pause';
                     }
                     isPlaying = !isPlaying;
+                };
+
+                container.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent any default behavior
+                    togglePlayPause();
+                });
+
+                playPauseBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent container click event from triggering
+                    togglePlayPause();
                 });
 
                 video.addEventListener('play', () => {
@@ -112,8 +117,6 @@ function enhanceVideos() {
                     playPauseBtn.style.display = 'block';
                     isPlaying = false;
                 });
-            } else {
-                console.log(`No video found in video container ${containerIndex + 1} of parent ${parentIndex + 1}`);
             }
         });
     });
@@ -121,19 +124,13 @@ function enhanceVideos() {
 
 // Ensure the script runs when the DOM is ready or retry if content is hidden
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM fully loaded, running enhanceVideos');
-        enhanceVideos();
-    });
+    document.addEventListener('DOMContentLoaded', enhanceVideos);
 } else {
-    console.log('DOM already loaded, running enhanceVideos immediately');
     enhanceVideos();
     // Retry if content is hidden
     if (document.querySelector('.section.hero-container.cards-container[style*="display: none"]')) {
-        console.log('Content hidden, setting up mutation observer');
         const observer = new MutationObserver((mutations) => {
             if (!document.querySelector('.section.hero-container.cards-container[style*="display: none"]')) {
-                console.log('Content now visible, re-running enhanceVideos');
                 enhanceVideos();
                 observer.disconnect();
             }
