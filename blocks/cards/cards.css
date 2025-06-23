@@ -1,14 +1,13 @@
 .cards > ul {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0.5rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
     grid-gap: 24px;
 }
 
 .cards > ul > li {
-    border: 1px solid #dadada;
     background-color: var(--background-color);
 }
 
@@ -65,7 +64,6 @@
 
 .cards.video > ul > li {
     flex: 1 1 100%;
-    border: none;
 }
 
 .cards.video .cards-card-body {

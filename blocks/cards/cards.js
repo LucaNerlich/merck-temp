@@ -58,10 +58,7 @@ function createVideoCards(block) {
         // Create video element if we have both poster and video URL
         if (posterImage && videoUrl && imageDiv) {
             // Replace the image div with video container
-            const videoContainer = document.createElement('div');
-            videoContainer.className = 'video-container';
-            videoContainer.appendChild(createVideoElement(posterImage, videoUrl));
-            imageDiv.replaceWith(videoContainer);
+            imageDiv.replaceWith(createVideoElement(posterImage, videoUrl));
         }
     });
 
