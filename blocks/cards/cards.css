@@ -37,24 +37,24 @@
     aspect-ratio: 4 / 3;
     object-fit: cover;
 }
-   .custom-play-pause {
+
+.custom-play-pause {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    cursor: pointer;
     z-index: 10;
     background: url('../../icons/play-button.png') no-repeat;
+    background-color: var(--background-color);
     background-size: cover;
     width: 60px;
     height: 60px;
-    background-color: var(--background-color);
-    border: 0 none;
-    padding: 0;
-   }
+}
+
 .custom-play-pause:hover {
     background-color: var(--background-color);
 }
+
 /* Video cards specific styling */
 .cards.video > ul {
     display: flex;
@@ -74,6 +74,7 @@
     color: #503291;
     font-size: 1.2rem;
 }
+
 .cards-wrapper,
 .hero-wrapper {
     padding: 0 !important;
@@ -87,7 +88,7 @@
         padding: 0 32px !important;
     }
 
-    .cards.video>ul>li {
+    .cards.video > ul > li {
         flex: 1 1 calc(33.333% - 3.333px);
     }
 }
