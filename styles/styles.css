@@ -18,6 +18,7 @@
     --text-color: #131313;
     --link-color: #2DBECD;
     --link-hover-color: #1d3ecf;
+    --color-green: #A5CD50;
 
     /* fonts */
     --body-font-family: Verdana, Geneva, sans-serif;;
@@ -61,7 +62,9 @@
         --body-font-size-xs: 10px;
     }
 }
-
+* {
+    box-sizing: border-box;
+}
 body {
     display: none;
     margin: 0 auto;
@@ -240,6 +243,9 @@ main > .section > div {
 
 main > .section:first-of-type {
     margin-top: 0;
+}
+main > .section:first-of-type:has(.video.block) {
+    background-color: var(--color-green);
 }
 
 @media (width >= 900px) {

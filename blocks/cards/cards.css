@@ -1,14 +1,13 @@
 .cards > ul {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0.5rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
     grid-gap: 24px;
 }
 
 .cards > ul > li {
-    border: 1px solid #dadada;
     background-color: var(--background-color);
 }
 
@@ -26,8 +25,10 @@
     object-fit: cover;
 }
 
-.cards .video-container {
+.video-container {
     line-height: 0;
+    position: relative;
+    cursor: pointer;
 }
 
 .cards .video-container video {
@@ -36,16 +37,33 @@
     object-fit: cover;
 }
 
+.custom-play-pause {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: url('../../icons/play-button.png') no-repeat;
+    background-color: var(--background-color);
+    background-size: cover;
+    width: 60px;
+    height: 60px;
+}
+
+.custom-play-pause:hover {
+    background-color: var(--background-color);
+}
+
 /* Video cards specific styling */
 .cards.video > ul {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
+    background-color: var(--background-color);
 }
 
 .cards.video > ul > li {
     flex: 1 1 100%;
-    border: none;
 }
 
 .cards.video .cards-card-body {
@@ -55,8 +73,19 @@
     font-size: 1.2rem;
 }
 
+.cards-wrapper,
+.hero-wrapper {
+    padding: 0 !important;
+}
+
 /* Desktop: 3 items per row */
 @media (min-width: 768px) {
+
+    .cards-wrapper,
+    .hero-wrapper {
+        padding: 0 32px !important;
+    }
+
     .cards.video > ul > li {
         flex: 1 1 calc(33.333% - 3.333px);
     }

@@ -1,4 +1,4 @@
-import {createVideoElement, isVideoUrl} from "../../scripts/video.js";
+import { createVideoElement, replaceControls, isVideoUrl } from '../../scripts/video.js';
 
 function createVideoHero(block) {
     // Prepare Text Section
@@ -7,7 +7,7 @@ function createVideoHero(block) {
 
     // Prepare Video Section
     // Find the first anchor element with a video mimetype URL
-    let videoUrl = "";
+    let videoUrl = '';
     const videoLink = block.querySelector('a[href]');
     if (videoLink && isVideoUrl(videoLink.href)) {
         videoUrl = videoLink.href;
@@ -18,7 +18,10 @@ function createVideoHero(block) {
     const posterImage = block.querySelector('picture > img');
 
     // Create Video Container and append
-    block.append(createVideoElement(posterImage, videoUrl));
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-container';
+    videoContainer.appendChild(createVideoElement(posterImage, videoUrl));
+    block.append(videoContainer);
 
     // Remove original image from markup
     posterImage.remove();
@@ -26,7 +29,10 @@ function createVideoHero(block) {
 
 export default async function decorate(block) {
     const isVideo = block.classList.contains('video');
-    if (isVideo) return createVideoHero(block);
+    if (isVideo) {
+        createVideoHero(block);
+        replaceControls(block); // Call enhanceVideos with the block parameter
+    }
 
     const h1 = block.querySelector('h1');
     if (!h1) return;
