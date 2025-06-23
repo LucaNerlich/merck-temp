@@ -1,4 +1,4 @@
-import {createOptimizedPicture} from "./aem.js";
+import { createOptimizedPicture } from './aem.js';
 
 /**
  * Determines if the provided URL points to a video file based on its extension.
@@ -46,7 +46,7 @@ function getVideoMimeType(url) {
  * @returns {HTMLElement} A `div` element containing a configured `video` element with controls, poster image, and specified source URL.
  */
 function createVideoElement(posterImage, videoUrl) {
-    const optimizedPicture = createOptimizedPicture(posterImage.src, posterImage.alt, false, [{width: '750'}]);
+    const optimizedPicture = createOptimizedPicture(posterImage.src, posterImage.alt, false, [{ width: '750' }]);
     const optimizedImg = optimizedPicture.querySelector('img');
 
     const videoContainer = document.createElement('div');
@@ -67,8 +67,67 @@ function createVideoElement(posterImage, videoUrl) {
     return videoContainer;
 }
 
+/**
+ * Replaces native video controls with custom play/pause controls within the specified block.
+ *
+ * @param {HTMLElement} block - The root HTMLElement containing `.video-container` elements. This method will search for video elements within these containers and replace their native controls with custom interactive buttons.
+ * @return {void} This function does not return a value.
+ */
+function replaceControls(block) {
+    const parentContainers = block.querySelectorAll('.video-container');
+
+    parentContainers.forEach((parent) => {
+        const videoContainers = parent.querySelectorAll('.video-container');
+
+        videoContainers.forEach((container) => {
+            const video = container.querySelector('video');
+            if (video) {
+                // Remove native controls
+                video.removeAttribute('controls');
+
+                // Add custom play/pause button specific to this video container
+                const playPauseBtn = document.createElement('button');
+                playPauseBtn.className = 'custom-play-pause';
+                container.appendChild(playPauseBtn);
+
+                // Add event listeners for both container and button
+                let isPlaying = false;
+                const togglePlayPause = () => {
+                    if (isPlaying) {
+                        video.pause();
+                    } else {
+                        video.play();
+                    }
+                    isPlaying = !isPlaying;
+                };
+
+                container.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    togglePlayPause();
+                });
+
+                playPauseBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    togglePlayPause();
+                });
+
+                video.addEventListener('play', () => {
+                    playPauseBtn.style.display = 'none';
+                    isPlaying = true;
+                });
+
+                video.addEventListener('pause', () => {
+                    playPauseBtn.style.display = 'block';
+                    isPlaying = false;
+                });
+            }
+        });
+    });
+}
+
 export {
     isVideoUrl,
     getVideoMimeType,
     createVideoElement,
-}
+    replaceControls,
+};

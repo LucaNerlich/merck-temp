@@ -1,6 +1,5 @@
 import {createOptimizedPicture} from '../../scripts/aem.js';
-import {createVideoElement, isVideoUrl} from "../../scripts/video.js";
-import {enhanceVideos} from "../../scripts/videoEnhance.js";
+import { createVideoElement, isVideoUrl, replaceControls } from '../../scripts/video.js';
 
 function createCardStructure(block) {
     /* change to ul, li */
@@ -69,5 +68,5 @@ function createVideoCards(block) {
     block.textContent = '';
     block.append(ul);
 
-    enhanceVideos(block); // Call enhanceVideos with the block parameter after appending video elements
+    replaceControls(block);
 }
