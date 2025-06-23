@@ -67,60 +67,52 @@ function createVideoElement(posterImage, videoUrl) {
     return videoContainer;
 }
 
+
 /**
- * Replaces native video controls with custom play/pause controls within the specified block.
+ * Replaces the native controls of video elements within a given block with custom controls.
  *
- * @param {HTMLElement} block - The root HTMLElement containing `.video-container` elements. This method will search for video elements within these containers and replace their native controls with custom interactive buttons.
- * @return {void} This function does not return a value.
+ * @param {Element} block The DOM element that contains video containers to process.
+ * @return {void} This method does not return a value.
  */
 function replaceControls(block) {
-    const parentContainers = block.querySelectorAll('.video-container');
+    const videoContainers = block.querySelectorAll('.video-container');
+    videoContainers.forEach((container) => {
+        // If this container contains another video container, skip it to avoid nested listeners.
+        if (container.querySelector('.video-container')) {
+            return;
+        }
 
-    parentContainers.forEach((parent) => {
-        const videoContainers = parent.querySelectorAll('.video-container');
+        const video = container.querySelector('video');
+        if (!video) {
+            return;
+        }
 
-        videoContainers.forEach((container) => {
-            const video = container.querySelector('video');
-            if (video) {
-                // Remove native controls
-                video.removeAttribute('controls');
+        // Remove native controls
+        video.removeAttribute('controls');
 
-                // Add custom play/pause button specific to this video container
-                const playPauseBtn = document.createElement('button');
-                playPauseBtn.className = 'custom-play-pause';
-                container.appendChild(playPauseBtn);
+        // Add custom play/pause button specific to this video container
+        const playPauseBtn = document.createElement('button');
+        playPauseBtn.className = 'custom-play-pause';
+        container.appendChild(playPauseBtn);
 
-                // Add event listeners for both container and button
-                let isPlaying = false;
-                const togglePlayPause = () => {
-                    if (isPlaying) {
-                        video.pause();
-                    } else {
-                        video.play();
-                    }
-                    isPlaying = !isPlaying;
-                };
+        const togglePlayPause = () => (video.paused ? video.play() : video.pause());
 
-                container.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    togglePlayPause();
-                });
+        container.addEventListener('click', (e) => {
+            e.preventDefault();
+            togglePlayPause();
+        });
 
-                playPauseBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    togglePlayPause();
-                });
+        playPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePlayPause();
+        });
 
-                video.addEventListener('play', () => {
-                    playPauseBtn.style.display = 'none';
-                    isPlaying = true;
-                });
+        video.addEventListener('play', () => {
+            playPauseBtn.style.display = 'none';
+        });
 
-                video.addEventListener('pause', () => {
-                    playPauseBtn.style.display = 'block';
-                    isPlaying = false;
-                });
-            }
+        video.addEventListener('pause', () => {
+            playPauseBtn.style.display = 'block';
         });
     });
 }
