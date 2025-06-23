@@ -19,7 +19,10 @@ function createVideoHero(block) {
     const posterImage = block.querySelector('picture > img');
 
     // Create Video Container and append
-    block.append(createVideoElement(posterImage, videoUrl));
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-container';
+    videoContainer.appendChild(createVideoElement(posterImage, videoUrl));
+    block.append(videoContainer);
 
     // Remove original image from markup
     posterImage.remove();
@@ -29,7 +32,7 @@ export default async function decorate(block) {
     const isVideo = block.classList.contains('video');
     if (isVideo) {
         createVideoHero(block);
-        enhanceVideos(); // Call enhanceVideos after creating the video
+        enhanceVideos(block); // Call enhanceVideos with the block parameter
     }
 
     const h1 = block.querySelector('h1');

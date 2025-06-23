@@ -1,7 +1,7 @@
 // videoEnhance.js
-export function enhanceVideos() {
-    // Target parent containers that might hold video containers
-    const parentContainers = document.querySelectorAll('.hero.video.block, .cards.video.block');
+export function enhanceVideos(block) {
+    // Target parent containers within the provided block
+    const parentContainers = block.querySelectorAll('.video-container');
 
     parentContainers.forEach((parent) => {
         const videoContainers = parent.querySelectorAll('.video-container');
@@ -22,10 +22,8 @@ export function enhanceVideos() {
                 const togglePlayPause = () => {
                     if (isPlaying) {
                         video.pause();
-                        playPauseBtn.textContent = 'Play';
                     } else {
                         video.play();
-                        playPauseBtn.textContent = 'Pause';
                     }
                     isPlaying = !isPlaying;
                 };
@@ -52,21 +50,4 @@ export function enhanceVideos() {
             }
         });
     });
-}
-
-// Ensure the script runs when the DOM is ready or retry if content is hidden
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', enhanceVideos);
-} else {
-    enhanceVideos();
-    // Retry if content is hidden
-    if (document.querySelector('.section.hero-container.cards-container[style*="display: none"]')) {
-        const observer = new MutationObserver((mutations) => {
-            if (!document.querySelector('.section.hero-container.cards-container[style*="display: none"]')) {
-                enhanceVideos();
-                observer.disconnect();
-            }
-        });
-        observer.observe(document.body, { attributes: true, subtree: true });
-    }
 }

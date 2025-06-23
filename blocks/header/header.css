@@ -2,7 +2,7 @@
 header .nav-wrapper {
     background-color: #503291;
     width: 100%;
-    z-index: 2;
+    z-index: 11;
     position: fixed;
 }
 

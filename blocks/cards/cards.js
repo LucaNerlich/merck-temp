@@ -1,5 +1,6 @@
 import {createOptimizedPicture} from '../../scripts/aem.js';
 import {createVideoElement, isVideoUrl} from "../../scripts/video.js";
+import {enhanceVideos} from "../../scripts/videoEnhance.js";
 
 function createCardStructure(block) {
     /* change to ul, li */
@@ -58,10 +59,15 @@ function createVideoCards(block) {
         // Create video element if we have both poster and video URL
         if (posterImage && videoUrl && imageDiv) {
             // Replace the image div with video container
-            imageDiv.replaceWith(createVideoElement(posterImage, videoUrl));
+            const videoContainer = document.createElement('div');
+            videoContainer.className = 'video-container';
+            videoContainer.appendChild(createVideoElement(posterImage, videoUrl));
+            imageDiv.replaceWith(videoContainer);
         }
     });
 
     block.textContent = '';
     block.append(ul);
+
+    enhanceVideos(block); // Call enhanceVideos with the block parameter after appending video elements
 }
